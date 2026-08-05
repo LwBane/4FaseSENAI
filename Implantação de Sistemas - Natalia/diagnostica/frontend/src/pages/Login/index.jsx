@@ -24,13 +24,17 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-agenda-bg">
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-lg p-8 w-full max-w-sm"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
-          Login
+        <div className="flex justify-center mb-6">
+          <img src="/logo.png" alt="AgendaFácil" className="w-32 h-32 object-contain" />
+        </div>
+
+        <h2 className="text-2xl font-semibold mb-6 text-agenda-blue text-center">
+          Entrar
         </h2>
 
         <input
@@ -39,7 +43,7 @@ export default function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-agenda-teal"
         />
 
         <input
@@ -48,12 +52,12 @@ export default function Login() {
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
           required
-          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-agenda-teal"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md transition"
+          className="w-full bg-agenda-blue hover:bg-agenda-blue-dark text-white font-medium py-2 rounded-md transition"
         >
           Entrar
         </button>
