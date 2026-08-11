@@ -25,17 +25,17 @@ app.get('/', (req, res) => {
 
 // ===== LOGIN =====
 app.post('/api/login', async (req, res) => {
-  const { email, senha } = req.body;
+  const { email, senha } = req.body || {};
 
   if (!email || !senha) {
-    return res.status(400).json({ erro: 'Preencha email e senha.' });
+    return res.status(400).json({ erro: 'Preencha seu e-mail e/ou senha.' });
   }
 
   try {
     const [rows] = await pool.query('SELECT * FROM usuario WHERE email = ?', [email]);
 
     if (rows.length === 0) {
-      return res.status(401).json({ erro: 'Usuario nao encontrado.' });
+      return res.status(401).json({ erro: 'Usuário não encontrado no sistema.' });
     }
 
     const usuario = rows[0];
@@ -117,7 +117,7 @@ app.get('/api/agendamentos', async (req, res) => {
 
 // ===== Criar agendamento =====
 app.post('/api/agendamentos', async (req, res) => {
-  const { id_cliente, id_profissional, tipo_servico, data_agendamento, hora_agendamento, observacoes } = req.body;
+  const { id_cliente, id_profissional, tipo_servico, data_agendamento, hora_agendamento, observacoes } = req.body || {};
 
   if (!id_cliente || !id_profissional || !tipo_servico || !data_agendamento || !hora_agendamento) {
     return res.status(400).json({ erro: 'Preencha todos os campos obrigatorios.' });
@@ -142,7 +142,7 @@ app.post('/api/agendamentos', async (req, res) => {
 // ===== Editar agendamento =====
 app.put('/api/agendamentos/:id', async (req, res) => {
   const { id } = req.params;
-  const { id_cliente, id_profissional, tipo_servico, data_agendamento, hora_agendamento, status, observacoes } = req.body;
+  const { id_cliente, id_profissional, tipo_servico, data_agendamento, hora_agendamento, status, observacoes } = req.body || {};
 
   if (!id_cliente || !id_profissional || !tipo_servico || !data_agendamento || !hora_agendamento) {
     return res.status(400).json({ erro: 'Preencha todos os campos obrigatorios.' });
@@ -158,7 +158,7 @@ app.put('/api/agendamentos/:id', async (req, res) => {
     );
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ erro: 'Agendamento nao encontrado.' });
+      return res.status(404).json({ erro: 'Agendamento não encontrado.' });
     }
 
     res.json({ mensagem: 'Agendamento atualizado com sucesso.' });
@@ -187,6 +187,12 @@ app.delete('/api/agendamentos/:id', async (req, res) => {
     console.error(err);
     res.status(500).json({ erro: 'Erro ao excluir agendamento.' });
   }
+});
+
+// ===== Middleware de tratamento de erro (garante resposta em JSON, nunca HTML) =====
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(400).json({ erro: 'Requisição inválida. Verifique o corpo (body) enviado.' });
 });
 
 // ===== Iniciar servidor =====
