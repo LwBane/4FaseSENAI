@@ -44,12 +44,22 @@ app.post("/login", async (req, res) => {
 
     try {
 
+        if(!email && !senha)
+            return res.status(400).json({mensagem: "Os campos de e-mail e senha são obrigatórios", sucess: false});
+
+
+        // Validação se o e-mail é válido 
+
+        
         const [usuarios] = await db.query(
             `SELECT * FROM usuario 
-             WHERE email = ? 
-             AND senha = ?`,
-             [email, senha]
+            WHERE email = ? 
+            AND senha = ?`,
+            [email, senha]
         );
+        
+        const senhaValida = bcrypt.compare(senha, usuarios.senha)
+
 
         if (usuarios.length > 0) {
 
