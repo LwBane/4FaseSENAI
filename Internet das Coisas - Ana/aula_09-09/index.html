@@ -22,11 +22,22 @@
 
     <div id="resultado"></div>
 
-     <script>
+     <!-- Esse trecho aqui que é vulnerável. Por conta do "inner.HTML", assim, quando tem o "+ termo", o navegador interpreta como HTML 
+    <script>
         function buscar() {
             const termo = document.getElementById("busca").value;
 
             document.getElementById("resultado").innerHTML =
+                "Você pesquisou por: " + termo;
+        }
+    </script> -->
+
+    <!-- Trecho corrigido  -->
+     <script>
+        function buscar() {
+            const termo = document.getElementById("busca").value;
+
+            document.getElementById("resultado").textContent =
                 "Você pesquisou por: " + termo;
         }
     </script>
