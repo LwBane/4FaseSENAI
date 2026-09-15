@@ -63,9 +63,22 @@
 
             comentarios.forEach(comentario => {
 
-                lista.innerHTML += `
-                    <p>${comentario}</p>
-                `;
+                // ==> Trecho vulnerável: O conteúdo do comentário é inserido diretamente
+                // no HTML através do innerHTML. Como o comentário é fornecido pelo usuário
+                // e fica armazenado, ele pode ser interpretado pelo navegador ao ser carregado.
+                // Isso permite que aconteça o XSS Armazenado/Persistente.
+
+                // lista.innerHTML += `
+                //     <p>${comentario}</p>
+                // `;
+
+
+                // ==> Trecho corrigido: Utilizando textContent para exibir a entrada
+                // do usuário apenas como texto e appendChild para adicionar o elemento à página.
+
+                const paragrafo = document.createElement("p");
+                paragrafo.textContent = comentario;
+                lista.appendChild(paragrafo);
 
             });
         }
